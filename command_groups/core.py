@@ -16,13 +16,17 @@ class Core:
         bot.loop.create_task(self.update_config_file_task())
         self.bot_session=aiohttp.ClientSession(loop=self.bot.loop)
  
-     #Owner only
     @commands.command(name="echo",pass_context=True,)
     async def echo(self,ctx,*,inputs:str):
         await self.bot.say(inputs)
- 
+
+    @commands.command(name = "printconfig", pass_context = True)
+    @commands.check(utils.is_owner)
+    async def output_configuration(self, ctx):
+        await self.bot.say(self.bot.configs)
+
     #Owner only
-    @commands.command(name="name",pass_context=True,)
+    @commands.command(name="setname",pass_context=True)
     @commands.check(utils.is_owner)
     async def change_name(self,ctx,*,new_name:str):
         try:
